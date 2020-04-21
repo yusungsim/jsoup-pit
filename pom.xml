@@ -33,6 +33,25 @@
 
   <build>
     <plugins>
+      <!-- PITest plugin. http://pitest.org/quickstart/maven/ -->
+      <plugin>
+        <groupId>org.pitest</groupId>
+        <artifactId>pitest-maven</artifactId>
+        <version>1.5.1</version>
+        <dependencies>
+          <dependency>
+            <groupId>org.pitest</groupId>
+            <artifactId>pitest-junit5-plugin</artifactId>
+            <version>0.8</version>
+          </dependency>
+        </dependencies>
+        <configuration>
+          <excludedTestClasses>
+            <param>org.jsoup.parser.HtmlTreeBuilderStateTest</param>
+          </excludedTestClasses>
+        </configuration>
+      </plugin>
+      <!-- original plugins -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
