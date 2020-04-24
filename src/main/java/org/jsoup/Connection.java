@@ -342,7 +342,6 @@ public interface Connection {
      * @param <T> Type of Base, either Request or Response
      */
     interface Base<T extends Base> {
-
         /**
          * Get the URL
          * @return URL

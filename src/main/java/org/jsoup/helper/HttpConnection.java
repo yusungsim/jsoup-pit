@@ -328,6 +328,11 @@ public class HttpConnection implements Connection {
         Map<String, List<String>> headers;
         Map<String, String> cookies;
 
+        /* only for testing purpose */
+        public boolean wrapllu(byte[] input) {
+            return looksLikeUtf8(input);
+        }
+
         private Base() {
             headers = new LinkedHashMap<>();
             cookies = new LinkedHashMap<>();

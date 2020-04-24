@@ -254,4 +254,42 @@ public class HttpConnectionTest {
         Connection.Request req = new HttpConnection.Request();
         req.addHeader("xxx", "é");
     }
+
+    /* Test cases for looksLikeUtf8 - using public wrapper */
+    @Test public void testLooksLikeUtf8_valid(){ 
+        // utf-8 encoding of "hello world!" : credit to https://mothereff.in/utf-8
+        // \x68\x65\x6C\x6C\x6F\x20\x77\x6F\x72\x6C\x64\x21
+        byte[] arr = {0x68, 0x65, 0x6c, 0x6c, 0x6f, 0x20, 0x77, 0x6f, 0x72, 0x6c, 0x64, 0x21};
+        HttpConnection.Request req = new HttpConnection.Request();
+        assertEquals(req.wrapllu(arr), true);
+    }
+
+    @Test public void testLooksLikeUtf8_invalid_short(){ 
+        // the first byte says character length = 3 bytes, but byte array size is 2
+        // so should return false.
+        // utf-8 encoding of "한" : \xED\x95\x9C
+        byte[] arr = {(byte)(0xED), (byte)(0x95)};
+        HttpConnection.Request req = new HttpConnection.Request();
+        assertEquals(req.wrapllu(arr), false);
+    }
+
+    @Test public void testLooksLikeUtf8_invalid_long(){ 
+        // the first byte says character length = 2 bytes, but byte array size is 3
+        // so should not be able to parse it, and return false
+        // utf-8 encoding of "한" : \xED\x95\x9C
+        byte[] arr = {(byte)(0xCD), (byte)(0x95), (byte)(0x9C)};
+        HttpConnection.Request req = new HttpConnection.Request();
+        assertEquals(req.wrapllu(arr), false);
+    }
+
+    @Test public void testLooksLikeUtf8_invalid_length_with_BOM(){ 
+        // the first byte says character length = 2 bytes, but byte array size is 3
+        // so should not be able to parse it, and return false
+        // utf-8 encoding of "한" : \xED\x95\x9C
+        // Also add BOM : \xEF\xBB\xBF
+        byte[] arr = {  (byte)(0xEF), (byte)(0xBB), (byte)(0xBF),
+                        (byte)(0xCD), (byte)(0x95), (byte)(0x9C)    };
+        HttpConnection.Request req = new HttpConnection.Request();
+        assertEquals(req.wrapllu(arr), false);
+    }
 }
