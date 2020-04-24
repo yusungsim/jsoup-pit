@@ -19,12 +19,14 @@ public class StringUtilTest {
         assertEquals("one two three", StringUtil.join(Arrays.asList("one", "two", "three"), " "));
     }
 
+    /* Adding boundary value, padding.length == 21*/
     @Test public void padding() {
         assertEquals("", StringUtil.padding(0));
         assertEquals(" ", StringUtil.padding(1));
         assertEquals("  ", StringUtil.padding(2));
         assertEquals("               ", StringUtil.padding(15));
         assertEquals("                                             ", StringUtil.padding(45));
+        assertEquals("                     ", StringUtil.padding(21));
     }
 
     @Test public void paddingInACan() {
