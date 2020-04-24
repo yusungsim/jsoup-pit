@@ -24,6 +24,8 @@ import java.io.IOException;
 import java.io.StringReader;
 import java.nio.charset.StandardCharsets;
 import java.util.Map;
+/* Added just for HashMap class */
+import java.util.HashMap;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -279,5 +281,12 @@ public class W3CDomTest {
         return TextUtil.stripNewlines(W3CDom.asString(w3c, properties));
     }
 
+
+    /* Additional tests */
+    @Test public void testOutputHtml() {
+        W3CDom dom = new W3CDom();
+        HashMap<String, String> map = dom.OutputHtml();
+        assertEquals(map.get("method"), "html");
+    }
 }
 
