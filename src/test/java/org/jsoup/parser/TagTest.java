@@ -39,11 +39,13 @@ public class TagTest {
         assertSame(p1, p2);
     }
 
+    /* added testing isFormSubmittable */
     @Test public void divSemantics() {
         Tag div = Tag.valueOf("div");
 
         assertTrue(div.isBlock());
         assertTrue(div.formatAsBlock());
+        assertFalse(div.isFormSubmittable());
     }
 
     @Test public void pSemantics() {

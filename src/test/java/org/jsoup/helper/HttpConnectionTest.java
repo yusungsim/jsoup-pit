@@ -290,4 +290,14 @@ public class HttpConnectionTest {
         HttpConnection.Request req = new HttpConnection.Request();
         assertEquals(req.wrapllu(arr), true);
     }
+
+    /* Test case with BOM in front of actual chars*/
+    @Test public void testLooksLikeUtf8_valid_with_bom(){ 
+        // utf-8 encoding of "hello world!" : credit to https://mothereff.in/utf-8
+        // \x68\x65\x6C\x6C\x6F\x20\x77\x6F\x72\x6C\x64\x21
+        byte[] arr = { (byte)(0xEF), (byte)(0xBB), (byte)(0xBF),
+            0x68, 0x65, 0x6c, 0x6c, 0x6f, 0x20, 0x77, 0x6f, 0x72, 0x6c, 0x64, 0x21};
+        HttpConnection.Request req = new HttpConnection.Request();
+        assertEquals(req.wrapllu(arr), true);
+    }
 }

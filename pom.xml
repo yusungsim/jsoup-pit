@@ -46,6 +46,9 @@
           </dependency>
         </dependencies>
         <configuration>
+          <!-- <targetClasses>
+            <param>org.jsoup.select.*</param>
+          </targetClasses> -->
           <excludedTestClasses>
             <param>org.jsoup.parser.HtmlTreeBuilderStateTest</param>
           </excludedTestClasses>

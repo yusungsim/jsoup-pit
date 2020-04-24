@@ -142,6 +142,7 @@ public class ElementsTest {
         assertEquals("<p><span>Gone</span></p>", TextUtil.stripNewlines(ps.get(1).outerHtml()));
     }
 
+    /* Adding test case : testing for boundary value == 0 in String val() */
     @Test public void val() {
         Document doc = Jsoup.parse("<input value='one' /><textarea>two</textarea>");
         Elements els = doc.select("input, textarea");
@@ -153,6 +154,11 @@ public class ElementsTest {
         assertEquals("three", els.first().val());
         assertEquals("three", els.last().val());
         assertEquals("<textarea>three</textarea>", els.last().outerHtml());
+
+        /* Additional test case : testing for empty document*/
+        Document doc2 = Jsoup.parse("");
+        Elements els2 = doc2.select("input");
+        assertEquals(els2.val(), "");
     }
 
     @Test public void before() {
