@@ -264,32 +264,30 @@ public class HttpConnectionTest {
         assertEquals(req.wrapllu(arr), true);
     }
 
-    @Test public void testLooksLikeUtf8_invalid_short(){ 
-        // the first byte says character length = 3 bytes, but byte array size is 2
-        // so should return false.
-        // utf-8 encoding of "한" : \xED\x95\x9C
-        byte[] arr = {(byte)(0xED), (byte)(0x95)};
+    /* Adding this test kills mutant : replaced bitwise AND to OR
+     * at HttpConnection.java:421*/
+    @Test public void testLooksLikeUtf8_valid_2bytes(){ 
+        // utf-8 encoding of "°" : \xC2\xB0
+        byte[] arr = {(byte)(0xC2), (byte)(0xB0)};
         HttpConnection.Request req = new HttpConnection.Request();
-        assertEquals(req.wrapllu(arr), false);
+        assertEquals(req.wrapllu(arr), true);
     }
 
-    @Test public void testLooksLikeUtf8_invalid_long(){ 
-        // the first byte says character length = 2 bytes, but byte array size is 3
-        // so should not be able to parse it, and return false
+    /* Adding this test kills mutant : replaced bitwise AND to OR
+     * at HttpConnection.java:423*/
+    @Test public void testLooksLikeUtf8_valid_3bytes(){ 
         // utf-8 encoding of "한" : \xED\x95\x9C
-        byte[] arr = {(byte)(0xCD), (byte)(0x95), (byte)(0x9C)};
+        byte[] arr = {(byte)(0xED), (byte)(0x95), (byte)(0x9C)};
         HttpConnection.Request req = new HttpConnection.Request();
-        assertEquals(req.wrapllu(arr), false);
+        assertEquals(req.wrapllu(arr), true);
     }
 
-    @Test public void testLooksLikeUtf8_invalid_length_with_BOM(){ 
-        // the first byte says character length = 2 bytes, but byte array size is 3
-        // so should not be able to parse it, and return false
-        // utf-8 encoding of "한" : \xED\x95\x9C
-        // Also add BOM : \xEF\xBB\xBF
-        byte[] arr = {  (byte)(0xEF), (byte)(0xBB), (byte)(0xBF),
-                        (byte)(0xCD), (byte)(0x95), (byte)(0x9C)    };
+    /* Adding this test kills mutant : replaced bitwise AND to OR
+     * at HttpConnection.java:425*/
+    @Test public void testLooksLikeUtf8_valid_4bytes(){ 
+        // utf-8 encoding of "𩸽" : \xF0\xA9\xB8\xBD
+        byte[] arr = {(byte)(0xF0), (byte)(0xA9), (byte)(0xB8), (byte)(0xBD)};
         HttpConnection.Request req = new HttpConnection.Request();
-        assertEquals(req.wrapllu(arr), false);
+        assertEquals(req.wrapllu(arr), true);
     }
 }
