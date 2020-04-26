@@ -300,4 +300,35 @@ public class HttpConnectionTest {
         HttpConnection.Request req = new HttpConnection.Request();
         assertEquals(req.wrapllu(arr), true);
     }
+
+    /* Test case with invalid utd-8 leading */
+    @Test public void testLooksLikeUtf8_invalid_leading() {
+        byte[] arr = {(byte)(0xFF), (byte)(0x95), (byte)(0x9C)};
+        HttpConnection.Request req = new HttpConnection.Request();
+        assertEquals(req.wrapllu(arr), false);
+    }
+
+    /* Test case with shorter than provided leading */
+    @Test public void testLooksLikeUtf8_shorter_4bytes(){ 
+        // utf-8 encoding of "𩸽" : \xF0\xA9\xB8\xBD
+        byte[] arr = {(byte)(0xF0), (byte)(0xA9), (byte)(0xB8)};
+        HttpConnection.Request req = new HttpConnection.Request();
+        assertEquals(req.wrapllu(arr), false);
+    }
+
+    @Test public void testLooksLikeUtf8_shorter2_4bytes(){ 
+        // utf-8 encoding of "𩸽" : \xF0\xA9\xB8\xBD
+        byte[] arr = {(byte)(0xF0), (byte)(0xA9)};
+        HttpConnection.Request req = new HttpConnection.Request();
+        assertEquals(req.wrapllu(arr), false);
+    }
+
+    /* Test case with invaid non-leading byte */
+
+    @Test public void testLooksLikeUtf8_invalid_2bytes(){ 
+        // utf-8 encoding of "°" : \xC2\xB0
+        byte[] arr = {(byte)(0xC2), (byte)(0xF0)};
+        HttpConnection.Request req = new HttpConnection.Request();
+        assertEquals(req.wrapllu(arr), false);
+    }
 }
