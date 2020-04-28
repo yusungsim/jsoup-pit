@@ -9,3 +9,4 @@ target/
 *Thrash*
 .metals
 .vscode
+.DS_Store
